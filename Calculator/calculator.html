@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator with Memory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .calculator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .display {
+            width: 260px;
+            height: 50px;
+            background-color: #e9e9e9;
+            text-align: right;
+            font-size: 30px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .button {
+            padding: 20px;
+            font-size: 20px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background-color: #ddd;
+        }
+
+        .button:active {
+            background-color: #ccc;
+        }
+
+        .memory-buttons {
+            grid-column: span 4;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .memory-button {
+            padding: 10px;
+            margin: 6px;
+            font-size: 16px;
+            background-color: #ff9f00;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .memory-button:hover {
+            background-color: #e88c00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <input type="text" id="display" class="display" disabled>
+        
+        <div class="memory-buttons">
+          <button class="memory-button" onclick="memoryStore()">M+</button>
+          <button class="memory-button" onclick="memoryClear()">MC</button>
+          <button class="memory-button" onclick="memoryRecall()">MR</button>
+          <button class="memory-button" onclick="memorySubtract()">M-</button>
+      </div>
+
+        <div class="buttons">
+            <button class="button" onclick="appendNumber('7')">7</button>
+            <button class="button" onclick="appendNumber('8')">8</button>
+            <button class="button" onclick="appendNumber('9')">9</button>
+            <button class="button" onclick="appendOperator('+')">+</button>
+
+            <button class="button" onclick="appendNumber('4')">4</button>
+            <button class="button" onclick="appendNumber('5')">5</button>
+            <button class="button" onclick="appendNumber('6')">6</button>
+            <button class="button" onclick="appendOperator('-')">-</button>
+
+            <button class="button" onclick="appendNumber('1')">1</button>
+            <button class="button" onclick="appendNumber('2')">2</button>
+            <button class="button" onclick="appendNumber('3')">3</button>
+            <button class="button" onclick="appendOperator('*')">*</button>
+
+            <button class="button" onclick="appendNumber('0')">0</button>
+            <button class="button" onclick="clearDisplay()">C</button>
+            <button class="button" onclick="calculateResult()">=</button>
+            <button class="button" onclick="appendOperator('/')">/</button>
+        </div>
+
+       
+    </div>
+
+    <script>
+        let currentInput = '';
+        let memory = 0;
+
+        const display = document.getElementById('display');
+
+        // Handle number input
+        function appendNumber(number) {
+            currentInput += number;
+            display.value = currentInput;
+        }
+
+        // Handle operator input
+        function appendOperator(operator) {
+            currentInput += ` ${operator} `;
+            display.value = currentInput;
+        }
+
+        // Clear display
+        function clearDisplay() {
+            currentInput = '';
+            display.value = currentInput;
+        }
+
+        // Calculate the result
+        function calculateResult() {
+            try {
+                currentInput = eval(currentInput).toString();
+                display.value = currentInput;
+            } catch (e) {
+                display.value = 'Error';
+            }
+        }
+
+        // Memory functions
+        function memoryStore() {
+            const display = document.getElementById('display');
+            const value = parseFloat(display.value) || 0; // display value
+            memory += value; // Add value to memory
+            console.log("Memory:", memory); //output
+          }
+          
+
+        function memoryRecall() {
+            currentInput = memory.toString();
+            display.value = currentInput;
+        }
+
+        function memoryClear() {
+            memory = 0;
+        }
+
+        function memorySubtract() {
+            const display = document.getElementById('display');
+            const value = parseFloat(display.value) || 0; //  display value
+            memory -= value; // Subtract display value 
+            console.log("Memory:", memory); // output
+          }
+          
+
+        // Keyboard support
+        document.addEventListener('keydown', (event) => {
+            if (event.key >= '0' && event.key <= '9') {
+                appendNumber(event.key);
+            } else if (event.key === '+') {
+                appendOperator('+');
+            } else if (event.key === '-') {
+                appendOperator('-');
+            } else if (event.key === '*') {
+                appendOperator('*');
+            } else if (event.key === '/') {
+                appendOperator('/');
+            } else if (event.key === 'Enter') {
+                calculateResult();
+            } else if (event.key === 'Backspace') {
+                currentInput = currentInput.slice(0, -1);
+                display.value = currentInput;
+            } else if (event.key === 'c' || event.key === 'C') {
+                clearDisplay();
+            }
+        });
+    </script>
+
+</body>
+</html>
