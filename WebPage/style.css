@@ -1,0 +1,37 @@
+footer .col-lg {
+     flex: 1; /* Default flex for equal spacing */
+     text-align: center;
+   }
+
+@media (max-width: 300px) {
+     .carousel-inner .row {
+       display: flex;
+       flex-direction: column; /*vertically */
+       align-items: center;
+     }
+   
+     .carousel-inner .col {
+       margin-bottom: 10px; 
+     }
+  
+     footer {
+          display: flex;
+          flex-wrap: wrap; 
+        }
+     footer .col-lg {
+          flex: 0 0 50%; /* 50% width */
+          text-align: center;
+          box-sizing: border-box; 
+          
+        }
+     
+     footer img .col-lg {
+          width: 100%;
+          text-align: center;
+        }
+     
+           
+}
+
+   
+  
