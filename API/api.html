@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Data Fetch</h1>
+    <button id="fetchData">Fetch Data</button>
+    
+    <script>
+        const url ="http://27.116.51.39:1122/ip/get_data";
+
+        const getbutton = document.querySelector("#fetchData");
+
+        const getdata = async () => {
+            try{
+              const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+              });
+                const post = await response.json();
+                return post;
+              }
+              catch(error){
+                  console.log(error);
+            }
+          }
+
+        getbutton.addEventListener("click", async() => {
+         const data = await getdata();
+         console.log(data);
+        });
+
+    </script>
+</body>
+</html>
